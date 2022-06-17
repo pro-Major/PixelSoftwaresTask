@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
             type : DataTypes.STRING,
             field : 'hash',
             allowNull : false,
-            unique : true
         }
 
 

@@ -16,7 +16,7 @@ function App() {
   const [accounts, setAccounts] = useState(null);
   const [receiverAddress, setReceiverAddress] = useState(null);
   const [transferAmount, setTransferAmount] = useState(null);
-  const [transactionHash, setTransactionHash] = useState(null);
+  // const [transactionHash, setTransactionHash] = useState(null);
   const privateKey =
     "041645e89a22df2c17f9b4ef7a6d847fe540ec97380a52c4d6427ababb18905a";
 
@@ -82,19 +82,21 @@ function App() {
         transaction,
         privateKey
       );
-      console.log("signTransaction", signTransaction);
+      console.log("signTransaction", signTransaction);  
+        var generatedHash;
       //Signed transaction
-      web3Api.web3.eth.sendSignedTransaction(
+     await web3Api.web3.eth.sendSignedTransaction(
         signTransaction.rawTransaction,
         (err, hash) => {
           if (err) throw new Error(err);
           console.log(err);
-          setTransactionHash(hash);
+          // setTransactionHash(hash);
           console.log(`hash`, hash);
+          generatedHash = hash;
           window.alert(`Transaction Complete Success`);
         }
       );
-      console.log('saved hash',transactionHash);
+      // console.log('saved hash',transactionHash);
       //Save in the Database
       await axios({
         method: "post",
@@ -104,7 +106,7 @@ function App() {
           senderAddress : accounts,
           receiverAddress : receiverAddress,
           amount : transferAmount,
-          hash : transactionHash 
+          hash :  generatedHash
         }
       })
     } catch (error) {
